@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useEffect} from 'react';
 import './App.css';
+import {BrowserRouter, Route, Switch,useHistory} from 'react-router-dom'
+import Home from './components/screens/Home';
+import Login from './components/screens/Login';
+import Signup from './components/screens/Signup';
 
+
+
+const Routing=()=>{
+  const history=useHistory()
+  useEffect(()=>{
+    const user= JSON.parse(localStorage.getItem("user"))
+    if(user){
+      //history.push('/')
+    }
+    else{
+      history.push('/login')
+    }
+  },[])
+  return(
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route path="/signup">
+        <Signup />
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+    </Switch>
+  );
+}
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <BrowserRouter>
+      <Routing />
+    </BrowserRouter>
+    
   );
 }
 
