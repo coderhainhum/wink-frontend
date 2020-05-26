@@ -13,7 +13,7 @@ export default function ConversationListItem(props) {
     else if(userId==item.person2._id){
         person=item.person1
     }
-    console.log("item1",item)
+    //console.log("item1",item)
     var lastMessage=item.messages.pop()
     
     return (

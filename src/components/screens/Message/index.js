@@ -1,36 +1,36 @@
 import React from 'react';
-import moment from 'moment';
+
 import './Message.css';
 
-export default function Message(props) {
-    const {
-      data,
-      isMine,
-      startsSequence,
-      endsSequence,
-      showTimestamp
-    } = props;
+import ReactEmoji from 'react-emoji';
 
-    const friendlyTimestamp = moment(data.timestamp).format('LLLL');
-    return (
-      <div className={[
-        'message',
-        `${isMine ? 'mine' : ''}`,
-        `${startsSequence ? 'start' : ''}`,
-        `${endsSequence ? 'end' : ''}`
-      ].join(' ')}>
-        {
-          showTimestamp &&
-            <div className="timestamp">
-              { friendlyTimestamp }
-            </div>
-        }
+const Message = ({ message}) => {
+  let isSentByCurrentUser = false;
+  const user=JSON.parse(localStorage.getItem("user"));
 
-        <div className="bubble-container">
-          <div className="bubble" title={friendlyTimestamp}>
-            { data.message }
+  if(user._id === message.senderId) {
+    isSentByCurrentUser = true;
+  }
+
+  return (
+    isSentByCurrentUser
+      ? (
+        <div className="messageContainer justifyEnd">
+          <p className="sentText pr-10">{user.name}</p>
+          <div className="messageBox backgroundBlue">
+            <p className="messageText colorWhite">{ReactEmoji.emojify(message.data)}</p>
           </div>
         </div>
-      </div>
-    );
+        )
+        : (
+          <div className="messageContainer justifyStart">
+            <div className="messageBox backgroundLight">
+              <p className="messageText colorDark">{ReactEmoji.emojify(message.data)}</p>
+            </div>
+            <p className="sentText pl-10 ">{message.senderId.name}</p>
+          </div>
+        )
+  );
 }
+
+export default Message;
