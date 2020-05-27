@@ -39,7 +39,6 @@ const MessageList = ({conversationId}) => {
       })
     }).then(res=>res.json())
     .then(data=>{
-      console.log(data)
       setConversation(data)
     })
   }
@@ -49,12 +48,12 @@ const MessageList = ({conversationId}) => {
     {messages?
     <div className="message-list-container">
       <div className="message-box">
-      <div className="messages">
-      {messages.map((message, i) => <div key={i}><Message message={message}/></div>)}
-      </div>
+        <div className="messages">
+          {messages.map((message, i) => <div key={i}><Message message={message}/></div>)}
+        </div>
       </div>
       <div ref={messagesEndRef} />
-      <Input sendMessage={sendMessage}/>
+        <Input sendMessage={sendMessage} messages={messages}/>
       </div>
     :
     <div>
