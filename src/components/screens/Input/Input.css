@@ -3,7 +3,6 @@
   width: 100%;
   border-top: 2px solid #D3D3D3;
   bottom: 0px;
-  position: absolute;
 }
 
 .input {
@@ -12,6 +11,7 @@
   padding: 5%;
   width: 80%;
   font-size: 1.2em;
+  height: 45px;
 }
 
 input:focus, textarea:focus, select:focus{
@@ -23,8 +23,8 @@ input:focus, textarea:focus, select:focus{
   text-transform: uppercase;
   text-decoration: none;
   background: #2979FF;
-  padding: 20px;
   display: inline-block;
   border: none;
   width: 20%;
+  height: 45px;
 }

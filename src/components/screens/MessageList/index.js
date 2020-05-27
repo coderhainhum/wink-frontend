@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useRef} from 'react';
 
 import ScrollToBottom from 'react-scroll-to-bottom';
 
@@ -19,7 +19,13 @@ const MessageList = ({conversationId}) => {
     },[conversationId])
     //console.log(conversation)
     const messages=(conversation.messages)
+    const messagesEndRef = useRef(null)
 
+    const scrollToBottom = () => {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  
+    useEffect(scrollToBottom, [messages]);
   const sendMessage=(message)=>{
     fetch('/createMessage',{
       method:"post",
@@ -43,14 +49,18 @@ const MessageList = ({conversationId}) => {
     {messages?
     <div className="message-list-container">
       <div className="message-box">
-      <ScrollToBottom className="messages">
+      <div className="messages">
       {messages.map((message, i) => <div key={i}><Message message={message}/></div>)}
-      </ScrollToBottom>
       </div>
+      </div>
+      <div ref={messagesEndRef} />
       <Input sendMessage={sendMessage}/>
       </div>
     :
-    <h2>Start a conversation</h2>
+    <div>
+      <h2>Start a conversation</h2>
+      <div ref={messagesEndRef} />
+    </div>
     }
     </>
 
