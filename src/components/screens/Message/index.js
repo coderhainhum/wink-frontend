@@ -8,15 +8,14 @@ const Message = ({ message}) => {
   let isSentByCurrentUser = false;
   const user=JSON.parse(localStorage.getItem("user"));
 
-  if(user._id === message.senderId) {
+  if(user._id === message.senderId._id) {
     isSentByCurrentUser = true;
   }
-
   return (
     isSentByCurrentUser
       ? (
         <div className="messageContainer justifyEnd">
-          <p className="sentText pr-10">{user.name}</p>
+          <p className="sentText pr-10">You</p>
           <div className="messageBox backgroundBlue">
             <p className="messageText colorWhite">{ReactEmoji.emojify(message.data)}</p>
           </div>

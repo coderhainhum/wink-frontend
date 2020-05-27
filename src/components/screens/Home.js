@@ -7,20 +7,13 @@ const Home =()=>{
     const history=useHistory()
     const[data,setData]=useState([])
     const[conversationId,setConversationId]=useState("")
-    const[conversation,setConversation]=useState([])
     useEffect(()=>{
         fetch('/conversationList')
         .then(res=>res.json())
         .then(result=>{
             setData(result.result)
         })
-        fetch(`/getConversation/${conversationId}`)
-        .then(res=>res.json())
-        .then(result=>{
-            setConversation(result)
-        })
-        
-    },[conversationId])
+    },[])
 
     
 
@@ -30,9 +23,8 @@ const Home =()=>{
             <div className="scrollable sidebar">
             <ConversationList data={data} setConversationId={setConversationId}/>
             </div>
-
             <div className="scrollable content">
-                <MessageList conversation={conversation}/>
+                <MessageList conversationId={conversationId} />
             </div>
         </div>
     )
