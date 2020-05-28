@@ -4,6 +4,7 @@ import ConversationList from './ConversationList'
 import MessageList from './MessageList/index'
 import '../../App.css'
 const Home =()=>{
+    //localStorage.clear()
     const history=useHistory()
     const[data,setData]=useState([])
     const[conversationId,setConversationId]=useState("")
@@ -13,7 +14,7 @@ const Home =()=>{
         .then(result=>{
             setData(result.result)
         })
-    },[])
+    },[conversationId])
 
     
 
@@ -21,7 +22,7 @@ const Home =()=>{
     return(
         <div className="messenger">
             <div className="scrollable sidebar">
-            <ConversationList data={data} setConversationId={setConversationId}/>
+            <ConversationList data={data} setConversationId={setConversationId} setConversation={setData}/>
             </div>
             <div className="scrollable content">
                 <MessageList conversationId={conversationId} />

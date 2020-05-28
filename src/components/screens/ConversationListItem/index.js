@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import './ConversationListItem.css';
 export default function ConversationListItem(props) {
     const user=JSON.parse(localStorage.getItem("user"));
+    console.log("user",user)
     const userId=(user._id)
     const item = props.data;
     const setConversationId=props.setConversationId;
