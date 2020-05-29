@@ -1,5 +1,9 @@
+.conversation-list-box{
+  display: flex;
+}
 .conversation-list-item {
   display: flex;
+  width: 900px;
   align-items: center;
   padding: 10px;
 }
@@ -28,4 +32,9 @@
   font-size: 14px;
   color: #888;
   margin: 0;
+}
+
+.delete-button{
+  align-items: center;
+  padding: 10px;
 }
