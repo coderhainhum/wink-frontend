@@ -16,7 +16,20 @@ export default function ConversationListItem(props) {
     }
     var lastMessage=item.messages.pop()
     
-
+    const deleteButton=(id)=>{
+        alert(id)
+        fetch(`/deleteConversation/${id}`,{
+            method:"put",
+            headers:{
+                "Content-Type":"application/json",
+            }
+        }).then(res=>res.json())
+        .then(result=>{
+            setConversationId("")
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
 
     return (
         <div className="conversation-list-box">
@@ -27,7 +40,11 @@ export default function ConversationListItem(props) {
                     {/* <p className="conversation-snippet">{ lastMessage }</p> */}
                 </div>
             </div>
-            
+            <div className="delete-button">
+                <div>
+                    <i className="material-icons" onClick={()=>deleteButton(item._id)}>delete</i>
+                </div>
+            </div>
         </div>
     );
 }
