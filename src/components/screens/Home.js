@@ -3,11 +3,21 @@ import {Link,useHistory} from 'react-router-dom'
 import ConversationList from './ConversationList'
 import MessageList from './MessageList/index'
 import '../../App.css'
-const Home =()=>{
-    //localStorage.clear()
+
+
+var socket;
+
+const Home =({socket,conversationId,setConversationId,conversation,setConversation})=>{
+    const ENDPOINT = 'http://localhost:5000/';
+    
+    // if(socket !== undefined){
+    //     console.log('Connected to socket...');
+    //     console.log(socket)
+    // }
+    
     const history=useHistory()
     const[data,setData]=useState([])
-    const[conversationId,setConversationId]=useState("")
+    
     useEffect(()=>{
         fetch('/conversationList')
         .then(res=>res.json())
@@ -25,7 +35,7 @@ const Home =()=>{
             <ConversationList data={data} setConversationId={setConversationId} setConversation={setData}/>
             </div>
             <div className="scrollable content">
-                <MessageList conversationId={conversationId} />
+                <MessageList conversationId={conversationId} socket={socket} setConversationId={setConversationId} data={conversation} setData={setConversation}/>
             </div>
         </div>
     )

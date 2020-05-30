@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 import './ConversationListItem.css';
 export default function ConversationListItem(props) {
     const user=JSON.parse(localStorage.getItem("user"));
-    console.log("user",user)
     const userId=(user._id)
     const item = props.data;
     const setConversationId=props.setConversationId;
@@ -17,7 +16,6 @@ export default function ConversationListItem(props) {
     var lastMessage=item.messages.pop()
     
     const deleteButton=(id)=>{
-        alert(id)
         fetch(`/deleteConversation/${id}`,{
             method:"put",
             headers:{
@@ -25,7 +23,7 @@ export default function ConversationListItem(props) {
             }
         }).then(res=>res.json())
         .then(result=>{
-            setConversationId("")
+            setConversationId(" ")
         }).catch(err=>{
             console.log(err)
         })

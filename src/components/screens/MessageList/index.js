@@ -6,18 +6,31 @@ import Message from '../Message/index';
 import Input from '../Input/Input'
 import './MessageList.css';
 
-const MessageList = ({conversationId}) => {
+const MessageList = ({conversationId,socket,data,setData}) => {
   const user=JSON.parse(localStorage.getItem("user"));
-  const[conversation,setConversation]=useState([])
+  //const [conversation,setConversation]=useState([])
+  var conversation=[];
+  if(data==null){
+  }
+  if(conversation.length==0){
+    if(data.data!=undefined&&data!=null){
+      conversation=data
+      console.log("case1",conversation)
+    }
+    else{
+      conversation=data
+      console.log("case2",conversation)
+    }
+  }
+  
     useEffect(()=>{
         fetch(`/getConversation/${conversationId}`)
         .then(res=>res.json())
         .then(result=>{
-            setConversation(result)
+            setData(result)
         })
-        
     },[conversationId])
-    //console.log(conversation)
+    //alert(conversation)
     const messages=(conversation.messages)
     const messagesEndRef = useRef(null)
 
@@ -26,21 +39,25 @@ const MessageList = ({conversationId}) => {
     }
   
     useEffect(scrollToBottom, [messages]);
-  const sendMessage=(message)=>{
-    fetch('/createMessage',{
-      method:"post",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        conversationId:conversationId,
-        data:message,
-        senderId:user._id
+    const sendMessage=(message)=>{
+      fetch('/createMessage',{
+        method:"post",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          conversationId:conversationId,
+          data:message,
+          senderId:user._id
+        })
+      }).then(res=>res.json())
+      .then(data=>{
+        setData(data)
+        socket.emit('input',{
+          conversationId:conversationId,
+        },{data:data});
       })
-    }).then(res=>res.json())
-    .then(data=>{
-      setConversation(data)
-    })
+      
   }
 
   return(
@@ -53,7 +70,7 @@ const MessageList = ({conversationId}) => {
         </div>
       </div>
       <div ref={messagesEndRef} />
-        <Input sendMessage={sendMessage} messages={messages}/>
+        <Input sendMessage={sendMessage} messages={messages} socket={socket}/>
       </div>
     :
     <div>

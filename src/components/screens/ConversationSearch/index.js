@@ -16,6 +16,7 @@ export default function ConversationSearch(props) {
     })
 
     const fetchUsers=(query)=>{
+        const user=JSON.parse(localStorage.getItem('user'))
       setSearch(query)
       fetch('/searchUsers',{
           method:"post",
@@ -23,7 +24,7 @@ export default function ConversationSearch(props) {
               "Content-Type":"application/json"
           },
           body:JSON.stringify({
-              query
+              query,id:user._id
           })
       }).then(res=>res.json())
       .then(results=>{

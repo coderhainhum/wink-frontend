@@ -5,7 +5,6 @@ import './Input.css';
 const Input = ({sendMessage,messages}) =>{ 
   const messag=messages
   const [message,setMessage]=useState("")
-  console.log(messag)
   useEffect(()=>{
     setMessage(" ")
   },[messag])
