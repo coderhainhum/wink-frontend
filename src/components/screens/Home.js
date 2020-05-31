@@ -20,19 +20,21 @@ const Home =({socket})=>{
     const[conversationId,setConversationId]=useState([])
     useEffect(()=>{
         const user=JSON.parse(localStorage.getItem('user'))
-        fetch('/conversationList',{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                id:user._id
+        if(user!=null){
+            fetch('/conversationList',{
+                method:"post",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    id:user._id
+                })
             })
-        })
-        .then(res=>res.json())
-        .then(result=>{
-            setData(result.result)
-        })
+            .then(res=>res.json())
+            .then(result=>{
+                setData(result.result)
+            })   
+        }
     },[conversationId])
 
     
