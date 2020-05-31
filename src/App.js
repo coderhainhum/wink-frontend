@@ -11,17 +11,7 @@ const Routing=()=>{
   const socket = io.connect('http://127.0.0.1:4000');
   const[conversationId,setConversationId]=useState("")
   const[data,setData]=useState([])
-  socket.on('output',function(conversation,data){
-        //alert(conversationId)
-        // window.location.reload();
-        // console.log("con",conversationId.conversationId)
-        //setConversationId("")
-        if(data!=null){
-          setData(data.data)
-        }
-        //alert(data)
-        setConversationId(conversation.conversationId);
-    })
+  
 
   const history=useHistory()
   useEffect(()=>{
@@ -36,7 +26,7 @@ const Routing=()=>{
   return(
     <Switch>
       <Route exact path="/">
-        <Home socket={socket} conversationId={conversationId} setConversationId={setConversationId} conversation={data} setConversation={setData}/>
+        <Home socket={socket}/>
       </Route>
       <Route path="/signup">
         <Signup />

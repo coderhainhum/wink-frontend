@@ -7,7 +7,7 @@ import '../../App.css'
 
 var socket;
 
-const Home =({socket,conversationId,setConversationId,conversation,setConversation})=>{
+const Home =({socket})=>{
     const ENDPOINT = 'http://localhost:5000/';
     
     // if(socket !== undefined){
@@ -17,7 +17,7 @@ const Home =({socket,conversationId,setConversationId,conversation,setConversati
     
     const history=useHistory()
     const[data,setData]=useState([])
-    
+    const[conversationId,setConversationId]=useState([])
     useEffect(()=>{
         fetch('/conversationList')
         .then(res=>res.json())
@@ -35,7 +35,7 @@ const Home =({socket,conversationId,setConversationId,conversation,setConversati
             <ConversationList data={data} setConversationId={setConversationId} setConversation={setData}/>
             </div>
             <div className="scrollable content">
-                <MessageList conversationId={conversationId} socket={socket} setConversationId={setConversationId} data={conversation} setData={setConversation}/>
+                <MessageList conversationId={conversationId} socket={socket} setConversationId={setConversationId}/>
             </div>
         </div>
     )

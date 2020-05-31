@@ -6,31 +6,17 @@ import Message from '../Message/index';
 import Input from '../Input/Input'
 import './MessageList.css';
 
-const MessageList = ({conversationId,socket,data,setData}) => {
+const MessageList = ({conversationId,socket}) => {
   const user=JSON.parse(localStorage.getItem("user"));
-  //const [conversation,setConversation]=useState([])
-  var conversation=[];
-  if(data==null){
-  }
-  if(conversation.length==0){
-    if(data.data!=undefined&&data!=null){
-      conversation=data
-      console.log("case1",conversation)
-    }
-    else{
-      conversation=data
-      console.log("case2",conversation)
-    }
-  }
-  
+  const [conversation,setConversation]=useState([])
     useEffect(()=>{
         fetch(`/getConversation/${conversationId}`)
         .then(res=>res.json())
         .then(result=>{
-            setData(result)
+            setConversation(result)
         })
     },[conversationId])
-    //alert(conversation)
+
     const messages=(conversation.messages)
     const messagesEndRef = useRef(null)
 
@@ -39,6 +25,14 @@ const MessageList = ({conversationId,socket,data,setData}) => {
     }
   
     useEffect(scrollToBottom, [messages]);
+
+    socket.on('output',function(data){
+      if(data!=null && conversationId==data.data._id){
+        setConversation(data.data)
+      }
+      
+    })
+
     const sendMessage=(message)=>{
       fetch('/createMessage',{
         method:"post",
@@ -52,10 +46,8 @@ const MessageList = ({conversationId,socket,data,setData}) => {
         })
       }).then(res=>res.json())
       .then(data=>{
-        setData(data)
-        socket.emit('input',{
-          conversationId:conversationId,
-        },{data:data});
+        setConversation(data)
+        socket.emit('input',{data:data});
       })
       
   }
