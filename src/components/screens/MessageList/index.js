@@ -4,6 +4,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 
 import Message from '../Message/index';
 import Input from '../Input/Input'
+import ConversationBar from '../ConversationBar/index'
 import './MessageList.css';
 
 const MessageList = ({conversationId,socket}) => {
@@ -56,6 +57,7 @@ const MessageList = ({conversationId,socket}) => {
     <>
     {messages?
     <div className="message-list-container">
+      <ConversationBar conversation={conversation}/>
       <div className="message-box">
         <div className="messages">
           {messages.map((message, i) => <div key={i}><Message message={message}/></div>)}
