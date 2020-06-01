@@ -1,6 +1,7 @@
 import React,{useEffect,useState,useRef} from 'react';
 
 import ScrollToBottom from 'react-scroll-to-bottom';
+import ReactDOM from 'react-dom'
 
 import Message from '../Message/index';
 import Input from '../Input/Input'
@@ -10,13 +11,15 @@ import './MessageList.css';
 const MessageList = ({conversationId,socket}) => {
   const user=JSON.parse(localStorage.getItem("user"));
   const [conversation,setConversation]=useState([])
-    useEffect(()=>{
-        fetch(`/getConversation/${conversationId}`)
-        .then(res=>res.json())
-        .then(result=>{
-            setConversation(result)
-        })
-    },[conversationId])
+  const [width,setWidth]=useState(0)
+  useEffect(()=>{    
+    changeFixedElementWidth()
+      fetch(`/getConversation/${conversationId}`)
+      .then(res=>res.json())
+      .then(result=>{
+          setConversation(result)
+      })
+  },[conversationId])
 
     const messages=(conversation.messages)
     const messagesEndRef = useRef(null)
@@ -52,7 +55,19 @@ const MessageList = ({conversationId,socket}) => {
       })
       
   }
-
+  var parentElementWidth=0;
+  let ddstyle={}
+  function changeFixedElementWidth() {
+    parentElementWidth = messagesEndRef.current ? messagesEndRef.current.offsetWidth : 200
+    setWidth(parentElementWidth)
+  }
+  window.addEventListener('load', changeFixedElementWidth);
+  window.addEventListener('resize', changeFixedElementWidth);
+  ddstyle={
+    width:width+"px"
+  }
+  
+  
   return(
     <>
     {messages?
@@ -64,7 +79,9 @@ const MessageList = ({conversationId,socket}) => {
         </div>
       </div>
       <div ref={messagesEndRef} />
-        <Input sendMessage={sendMessage} messages={messages} socket={socket}/>
+        <div className="input-box" style={ddstyle}>
+          <Input sendMessage={sendMessage} messages={messages} socket={socket}/>
+        </div>
       </div>
     :
     <div>

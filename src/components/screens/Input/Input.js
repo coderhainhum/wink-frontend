@@ -6,19 +6,18 @@ const Input = ({sendMessage,messages}) =>{
   const messag=messages
   const [message,setMessage]=useState("")
   useEffect(()=>{
-    setMessage(" ")
+    setMessage("")
   },[messag])
   return(
     <div className="form">
       <input
-        className="input"
+        className="messageInput"
         type="text"
         placeholder="Type a message..."
         value={message}
         onChange={({ target: { value } }) => setMessage(value)}
-        onKeyPress={event => event.key === 'Enter' ? sendMessage(message): null}
-      />
-      <button className="sendButton" onClick={e => sendMessage(message)}>Send</button>
+        onKeyPress={event => event.key === 'Enter' ? sendMessage(message): null}/>
+      <i class="material-icons sendButton" onClick={e => sendMessage(message)}>send</i>
     </div>
 )
 }
