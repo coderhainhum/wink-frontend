@@ -5,7 +5,7 @@ import M from 'materialize-css'
 
 export default function ConversationSearch(props) {
     const setConversationId=props.setConversationId
-
+    const setConversation=props.setConversation
     const searchModal=useRef(null);
 
     const [userDetails,setUserDetails]=useState([])
@@ -16,8 +16,8 @@ export default function ConversationSearch(props) {
     })
 
     const fetchUsers=(query)=>{
-        const user=JSON.parse(localStorage.getItem('user'))
-      setSearch(query)
+      const user=JSON.parse(localStorage.getItem('user'))
+      setSearch(query)  
       fetch('/searchUsers',{
           method:"post",
           headers:{
@@ -29,6 +29,7 @@ export default function ConversationSearch(props) {
       }).then(res=>res.json())
       .then(results=>{
           setUserDetails(results.user)
+          setConversation([])
       })
   }
 
@@ -87,7 +88,12 @@ export default function ConversationSearch(props) {
                   createConversation(item._id)
                   setSearch('')
                   setUserDetails([])
-              }}><li className="collection-item">{item.name}</li></Link>
+              }}><li className="conversation-list-item">
+                    <img className="conversation-photo" src={item.photo} alt="conversation" />
+                    <div className="conversation-info" >
+                        <h1 className="conversation-title">{ item.name }</h1>
+                    </div>  
+                </li></Link>
           })}
       </ul>
   </div>

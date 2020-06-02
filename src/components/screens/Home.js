@@ -10,11 +10,6 @@ var socket;
 const Home =({socket})=>{
     const ENDPOINT = 'http://localhost:5000/';
     
-    // if(socket !== undefined){
-    //     console.log('Connected to socket...');
-    //     console.log(socket)
-    // }
-    
     const history=useHistory()
     const[data,setData]=useState([])
     const[conversationId,setConversationId]=useState([])
