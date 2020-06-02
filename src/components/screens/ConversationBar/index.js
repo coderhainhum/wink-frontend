@@ -6,7 +6,7 @@ export default function ConversationBar({conversation}) {
     const userId=user._id
     var person={}
     if(conversation.person1._id==userId){
-        person=conversation.person1
+        person=conversation.person2
     }
     else if(conversation.person2._id==userId){
         person=conversation.person1
