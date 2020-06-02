@@ -21,6 +21,7 @@ export default function ConversationSearch(props) {
       if(query==""){
         setUserDetails([])
         setConversationId(" ")
+        setConversationId([])
       }
       fetch('/searchUsers',{
           method:"post",

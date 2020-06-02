@@ -2,12 +2,12 @@
   display: flex;
   width: 100%;
   bottom: 0px;
-  border-radius: 10px;
+  background-color: #F3F3F3;
 }
 @supports (backdrop-filter: blur(20px)) {
   .form {
     border: none;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #F3F3F3;
     backdrop-filter: blur(20px);
   }
 }
@@ -17,6 +17,7 @@
   padding: 5%;
   font-size: 1.2em;
   height: 45px;
+
 }
 
 input:focus, textarea:focus, select:focus{
@@ -29,4 +30,13 @@ input:focus, textarea:focus, select:focus{
   border: none;
   width: 4%;
   height: 45px;
+}
+.sendButton:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.sendButton:active {
+  color: #4d4d4d;
+  opacity: 0.25;
 }
