@@ -17,7 +17,11 @@ export default function ConversationSearch(props) {
 
     const fetchUsers=(query)=>{
       const user=JSON.parse(localStorage.getItem('user'))
-      setSearch(query)  
+      setSearch(query)
+      if(query==""){
+        setUserDetails([])
+        setConversationId(" ")
+      }
       fetch('/searchUsers',{
           method:"post",
           headers:{
