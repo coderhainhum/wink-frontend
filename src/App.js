@@ -9,8 +9,6 @@ import io from "socket.io-client";
 var socket;
 const Routing=()=>{
   const socket = io.connect('http://127.0.0.1:4000');
-  const[conversationId,setConversationId]=useState("")
-  const[data,setData]=useState([])
   
 
   const history=useHistory()
@@ -25,14 +23,14 @@ const Routing=()=>{
   },[])
   return(
     <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
       <Route exact path="/">
         <Home socket={socket}/>
       </Route>
       <Route path="/signup">
         <Signup />
-      </Route>
-      <Route path="/login">
-        <Login />
       </Route>
     </Switch>
   );

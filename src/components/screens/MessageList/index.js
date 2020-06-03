@@ -9,15 +9,24 @@ import ConversationBar from '../ConversationBar/index'
 import './MessageList.css';
 
 const MessageList = ({conversationId,socket}) => {
+  console.log(conversationId)
   const user=JSON.parse(localStorage.getItem("user"));
+  var userName=""
+  var userPhoto=""
+  if(user){
+    userName=user.name
+    userPhoto=user.photo
+  }
+
   const [conversation,setConversation]=useState([])
   const [width,setWidth]=useState(0)
-  useEffect(()=>{    
+  
+  useEffect(()=>{  
     changeFixedElementWidth()
       fetch(`/getConversation/${conversationId}`)
       .then(res=>res.json())
       .then(result=>{
-          setConversation(result)
+          setConversation(result) 
       })
   },[conversationId])
 
@@ -29,12 +38,11 @@ const MessageList = ({conversationId,socket}) => {
     }
   
     useEffect(scrollToBottom, [messages]);
-
+    
     socket.on('output',function(data){
-      if(data!=null && conversationId==data.data._id){
+      if(data!=null && conversation._id===data.data._id){
         setConversation(data.data)
       }
-      
     })
 
     const sendMessage=(message)=>{
@@ -50,7 +58,7 @@ const MessageList = ({conversationId,socket}) => {
         })
       }).then(res=>res.json())
       .then(data=>{
-        setConversation(data)
+        //setConversation(data)
         socket.emit('input',{data:data});
       })
       
@@ -85,7 +93,10 @@ const MessageList = ({conversationId,socket}) => {
       </div>
     :
     <div>
-      <h2>Start a conversation</h2>
+      <h2>Welcome</h2>
+      <img src={userPhoto}></img>
+      <h3>{userName}</h3>
+
       <div ref={messagesEndRef} />
     </div>
     }

@@ -10,6 +10,7 @@ export default function ConversationList(props) {
       <div className="conversation-list" >
         <Toolbar
             title="Wink"
+            setConversationId={setConversationId}
         />
         <ConversationSearch setConversationId={setConversationId} setConversation={setConversation}/>
         {

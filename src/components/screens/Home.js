@@ -9,12 +9,12 @@ var socket;
 
 const Home =({socket})=>{
     const ENDPOINT = 'http://localhost:5000/';
-    
     const history=useHistory()
     const[data,setData]=useState([])
-    const[conversationId,setConversationId]=useState([])
+    const[conversationId,setConversationId]=useState("")
+    const user=JSON.parse(localStorage.getItem('user'))
     useEffect(()=>{
-        const user=JSON.parse(localStorage.getItem('user'))
+        
         if(user!=null){
             fetch('/conversationList',{
                 method:"post",

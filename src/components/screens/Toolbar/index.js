@@ -2,7 +2,12 @@ import React from 'react';
 import './Toolbar.css';
 import M from 'materialize-css'
 export default function Toolbar(props) {
-    const { title } = props;
+    const user=JSON.parse(localStorage.getItem('user'))
+    let userPhoto="";
+    if(user){
+      userPhoto=user.photo
+    }
+    const { title,setConversationId } = props;
     const logout=()=>{
       localStorage.clear();
       window.location.reload();
@@ -12,7 +17,9 @@ export default function Toolbar(props) {
       <div className="toolbar">
         <div className="left-items"><i className="material-icons toolbar-button" onClick={()=>logout()}>logout</i></div>
         <h1 className="toolbar-title">{ title }</h1>
-        <div className="right-items"><i className="material-icons toolbar-button">add</i></div>
+        <div className="right-items">
+          <img src={userPhoto} className="tootlbar-button conversation-photo" onClick={()=>{setConversationId("")}}></img>
+        </div>
       </div>
     );
 }
