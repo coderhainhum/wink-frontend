@@ -9,7 +9,6 @@ import ConversationBar from '../ConversationBar/index'
 import './MessageList.css';
 
 const MessageList = ({conversationId,socket}) => {
-  console.log(conversationId)
   const user=JSON.parse(localStorage.getItem("user"));
   var userName=""
   var userPhoto=""
