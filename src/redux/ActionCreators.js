@@ -24,23 +24,42 @@ export const fetchConversations=()=>(dispatch)=>{
         }
     },
     error=>{
-        var errmess=new Error(error.message);
-        throw errmess;
+        var errMess=new Error(error.message);
+        throw errMess;
     })
     .then(response=>response.json())
     .then(conversations=>dispatch(addConversations(conversations)))
 }
 
 export const conversationsLoading=()=>({
-    type:ActionTypes.CONVERSATIONS_LOADING
+    type:ActionTypes.$CONVERSATIONS_LOADING
 })
 
-export const conversationsFailed=()=>({
-    type:ActionTypes.CONVERSATION_FAILED
+export const conversationsFailed=(errMess)=>({
+    type:ActionTypes.CONVERSATION_FAILED,
+    payload:errMess
 })
 
-export const addConversations=()=>({
-    type:ActionTypes.ADD_CONVERSATIONS
+export const addConversations=(conversations)=>({
+    type:ActionTypes.ADD_CONVERSATIONS,
+    payload:conversations
 })
 
+export const activeConversation=(conversationId)=>(dispatch)=>{
+    dispatch(activeConversationLoading(true))
 
+    dispatch(setActiveConversation(conversationId))
+}
+
+export const activeConversationLoading=()=>({
+    type:ActionTypes.ACTIVE_CONVERSATIONS_LOADING
+})
+
+export const activeConversationsFailed=()=>({
+    type:ActionTypes.ACTIVE_CONVERSATION_FAILED
+})
+
+export const setActiveConversation=(conversationId)=>({
+    type:ActionTypes.SET_ACTIVE_CONVERSATION,
+    payload:conversationId
+})
