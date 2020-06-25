@@ -55,8 +55,9 @@ export const activeConversationLoading=()=>({
     type:ActionTypes.ACTIVE_CONVERSATIONS_LOADING
 })
 
-export const activeConversationsFailed=()=>({
-    type:ActionTypes.ACTIVE_CONVERSATION_FAILED
+export const activeConversationsFailed=(errMess)=>({
+    type:ActionTypes.ACTIVE_CONVERSATION_FAILED,
+    payload:errMess
 })
 
 export const setActiveConversation=(conversationId)=>({
