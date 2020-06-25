@@ -1,4 +1,5 @@
 import * as ActionTypes from './ActionTypes';
+import { activeConversationId } from './ActionCreators';
 
 export const Conversations=(state={
     isLoading:true,
@@ -6,6 +7,7 @@ export const Conversations=(state={
     conversations=[],
     isActiveLoading:true,
     activeErrMess:null,
+    activeConversationId=" ",
     activeConversation={}
 },action)=>{
     switch(action.type){
@@ -15,9 +17,13 @@ export const Conversations=(state={
             return {...state,isLoading:true, errMess:null, conversations:[]}
         case ActionTypes.CONVERSATION_FAILED:
             return {...state, isLoading:true, errMess:action.payload,conversations:[]}
+
+        case ActionTypes.SET_ACTIVE_CONVERSATIONID:
+            return {...state,activeConversationId:action.payload}
+
         case ActionTypes.SET_ACTIVE_CONVERSATION:
-            let activeconversation=conversations.filter(conversation=>{
-                let result=conversation._id==action.payload
+            let activeconversation=state.conversations.filter(conversation=>{
+                let result=conversation._id==state.activeConversationId
                 return result
             })
             activeconversation=activeconversation[0]
@@ -26,6 +32,16 @@ export const Conversations=(state={
             return{...state,isActiveLoading:true,activeErrMess:null,activeConversation:{}}
         case ActionTypes.ACTIVE_CONVERSATION_FAILED:
             return{...state,isActiveLoading:true,activeErrMess:action.payload,activeConversation:{}}
-
+        
+        case ActionTypes.ADD_MESSAGE:
+            let updation=[]
+            for(var i=0;i<state.Conversations;i++){
+                let conversation=state.Conversations[i]
+                if(conversation._id==state.conversationId){
+                    conversation.messages.push(action.payload)
+                }
+                updation.push(conversation)
+            }
+            return{...state,conversations:updation}
     }
 }

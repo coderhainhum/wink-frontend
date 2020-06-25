@@ -29,6 +29,7 @@ export const fetchConversations=()=>(dispatch)=>{
     })
     .then(response=>response.json())
     .then(conversations=>dispatch(addConversations(conversations)))
+    .catch(error=>{console.log('fetch conversations',error.message)})
 }
 
 export const conversationsLoading=()=>({
@@ -45,11 +46,22 @@ export const addConversations=(conversations)=>({
     payload:conversations
 })
 
-export const activeConversation=(conversationId)=>(dispatch)=>{
+export const activeConversationId=(conversationId)=>(dispatch)=>{
+    dispatch(setActiveConversationId(conversationId))
     dispatch(activeConversationLoading(true))
-
-    dispatch(setActiveConversation(conversationId))
+    dispatch(setActiveConversation())
 }
+
+export const setActiveConversationId=(conversationId)=>({
+    type:ActionTypes.setActiveConversationId,
+    payload:conversationId
+})
+
+// export const activeConversation=()=>(dispatch)=>{
+//     dispatch(activeConversationLoading(true))
+
+//     dispatch(setActiveConversation())
+// }
 
 export const activeConversationLoading=()=>({
     type:ActionTypes.ACTIVE_CONVERSATIONS_LOADING
@@ -60,7 +72,41 @@ export const activeConversationsFailed=(errMess)=>({
     payload:errMess
 })
 
-export const setActiveConversation=(conversationId)=>({
-    type:ActionTypes.SET_ACTIVE_CONVERSATION,
-    payload:conversationId
+export const setActiveConversation=()=>({
+    type:ActionTypes.SET_ACTIVE_CONVERSATION
+})
+
+export const newMessage=(messageBody)=>{
+    const user=JSON.parse(localStorage.getItem('user'))
+    let message={
+        conversationId:messageBody.conversationId,
+        data:messageBody.message,
+        senderId:user._id
+    }
+    fetch(baseUrl+'/createMessage',{
+        method:"post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(messageBody)
+    }).then(response=>{
+        if(response.ok){
+            
+        } else{
+            var error=new Error('Error'+response.status+':'+response.statusText);
+            error.response=response;
+            throw error;
+        }
+    },
+    error=>{
+        var errMess=new Error(error.message);
+        throw errMess;
+    })
+    .then(response=>dispatch(addMessage(message)))
+    .catch(error=>{console.log('new message',error.message)})
+}
+
+export const addMessage=(messageBody)=>({
+    type:ActionTypes.ADD_MESSAGE,
+    payload:messageBody
 })
