@@ -7,7 +7,7 @@ export const Conversations=(state={
     conversations:[],
     isActiveLoading:true,
     activeErrMess:null,
-    activeConversationId:" ",
+    activeConversationId:"",
     activeConversation:{}
 },action)=>{
     switch(action.type){

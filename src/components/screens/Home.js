@@ -13,13 +13,11 @@ import {
 import {connect} from 'react-redux';
 
 
-var socket;
-
 const mapStateToProps=state=>{
     return{
         conversations:state.conversations.conversations,
         activeConversation:state.conversations.activeConversation,
-        conversationId:state.conversations.activeConversationId        
+        conversationId:state.conversations.activeConversationId,      
     }
 }
 
@@ -39,7 +37,7 @@ class Home extends Component{
         this.props.fetchConversations();
     }
     render(){
-        console.log("props",this.props)
+        console.log("props",this.props.conversations)
         return(
             <div className="messenger">
              <div className="scrollable sidebar">
@@ -49,7 +47,9 @@ class Home extends Component{
                 />
              </div>
              <div className="scrollable content">
-                 {/* <MessageList conversationId={conversationId} socket={socket} setConversationId={setConversationId}/> */}
+                 <MessageList socket={this.props.socket}
+                    activeConversation={this.props.activeConversation}
+                 />
              </div>
          </div>
         )

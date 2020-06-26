@@ -14,7 +14,6 @@ export default function ConversationListItem(props) {
     else if(userId==item.person2._id){
         person=item.person1
     }
-    var lastMessage=item.messages.pop()
     
     const deleteButton=(id)=>{
         fetch(`/deleteConversation/${id}`,{

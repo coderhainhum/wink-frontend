@@ -29,7 +29,7 @@ export const fetchConversations=()=>(dispatch)=>{
             throw errMess;
         })
         .then(response=>response.json())
-        .then(conversations=>dispatch(addConversations(conversations.result)))
+        .then(conversations=>dispatch(addConversations(conversations)))
         .catch(error=>{console.log('fetch conversations',error.message)})
     }
 }

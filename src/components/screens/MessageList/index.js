@@ -8,7 +8,7 @@ import Input from '../Input/Input'
 import ConversationBar from '../ConversationBar/index'
 import './MessageList.css';
 
-const MessageList = ({conversationId,socket}) => {
+const MessageList = ({activeConversation,socket}) => {
   const user=JSON.parse(localStorage.getItem("user"));
   var userName=""
   var userPhoto=""
@@ -16,18 +16,18 @@ const MessageList = ({conversationId,socket}) => {
     userName=user.name
     userPhoto=user.photo
   }
-
-  const [conversation,setConversation]=useState([])
+  const conversation=activeConversation
+  console.log("active con",activeConversation)
   const [width,setWidth]=useState(0)
   
-  useEffect(()=>{  
-    changeFixedElementWidth()
-      fetch(`/getConversation/${conversationId}`)
-      .then(res=>res.json())
-      .then(result=>{
-          setConversation(result) 
-      })
-  },[conversationId])
+  // useEffect(()=>{  
+  //   changeFixedElementWidth()
+  //     fetch(`/getConversation/${conversationId}`)
+  //     .then(res=>res.json())
+  //     .then(result=>{
+  //         setConversation(result) 
+  //     })
+  // },[conversationId])
 
     const messages=(conversation.messages)
     const messagesEndRef = useRef(null)
@@ -38,30 +38,29 @@ const MessageList = ({conversationId,socket}) => {
   
     useEffect(scrollToBottom, [messages]);
     
-    socket.on('output',function(data){
-      if(data!=null && conversation._id===data.data._id){
-        setConversation(data.data)
-      }
-    })
+    // socket.on('output',function(data){
+    //   if(data!=null && conversation._id===data.data._id){
+    //     setConversation(data.data)
+    //   }
+    // })
 
     const sendMessage=(message)=>{
-      fetch('/createMessage',{
-        method:"post",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          conversationId:conversationId,
-          data:message,
-          senderId:user._id
-        })
-      }).then(res=>res.json())
-      .then(data=>{
-        //setConversation(data)
-        socket.emit('input',{data:data});
-      })
-      
-  }
+      // fetch('/createMessage',{
+      //   method:"post",
+      //   headers:{
+      //     "Content-Type":"application/json"
+      //   },
+      //   body:JSON.stringify({
+      //     conversationId:conversationId,
+      //     data:message,
+      //     senderId:user._id
+      //   })
+      // }).then(res=>res.json())
+      // .then(data=>{
+      //   //setConversation(data)
+      //   socket.emit('input',{data:data});
+      // })
+      }
   var parentElementWidth=0;
   let ddstyle={}
   function changeFixedElementWidth() {
