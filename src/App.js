@@ -6,6 +6,11 @@ import Login from './components/screens/Login';
 import Signup from './components/screens/Signup';
 import io from "socket.io-client";
 
+import {Provider} from 'react-redux';
+import {ConfigureStore} from './redux/configureStore';
+
+const store=ConfigureStore()
+
 var socket;
 const Routing=()=>{
   const socket = io.connect('http://127.0.0.1:4000');
@@ -37,10 +42,11 @@ const Routing=()=>{
 }
 function App() {
   return (
-
-    <BrowserRouter>
-      <Routing />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routing />
+      </BrowserRouter>
+    </Provider>
     
   );
 }

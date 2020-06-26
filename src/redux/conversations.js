@@ -4,11 +4,11 @@ import { activeConversationId } from './ActionCreators';
 export const Conversations=(state={
     isLoading:true,
     errMess:null,
-    conversations=[],
+    conversations:[],
     isActiveLoading:true,
     activeErrMess:null,
-    activeConversationId=" ",
-    activeConversation={}
+    activeConversationId:" ",
+    activeConversation:{}
 },action)=>{
     switch(action.type){
         case ActionTypes.ADD_CONVERSATIONS:
@@ -43,5 +43,6 @@ export const Conversations=(state={
                 updation.push(conversation)
             }
             return{...state,conversations:updation}
+        default:return state
     }
 }

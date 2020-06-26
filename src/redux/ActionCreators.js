@@ -33,7 +33,7 @@ export const fetchConversations=()=>(dispatch)=>{
 }
 
 export const conversationsLoading=()=>({
-    type:ActionTypes.$CONVERSATIONS_LOADING
+    type:ActionTypes.CONVERSATIONS_LOADING
 })
 
 export const conversationsFailed=(errMess)=>({
@@ -53,7 +53,7 @@ export const activeConversationId=(conversationId)=>(dispatch)=>{
 }
 
 export const setActiveConversationId=(conversationId)=>({
-    type:ActionTypes.setActiveConversationId,
+    type:ActionTypes.SET_ACTIVE_CONVERSATIONID,
     payload:conversationId
 })
 
@@ -76,7 +76,7 @@ export const setActiveConversation=()=>({
     type:ActionTypes.SET_ACTIVE_CONVERSATION
 })
 
-export const newMessage=(messageBody)=>{
+export const newMessage=(messageBody)=>(dispatch)=>{
     const user=JSON.parse(localStorage.getItem('user'))
     let message={
         conversationId:messageBody.conversationId,
