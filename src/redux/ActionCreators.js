@@ -3,9 +3,10 @@ import {baseUrl} from '../shared/baseUrl';
 
 
 export const fetchConversations=()=>(dispatch)=>{
+    console.log("entered")
     dispatch(conversationsLoading(true));
     const user=JSON.parse(localStorage.getItem('user'))
-    return fetch(baseUrl+'conversationList',{
+    return fetch('conversationList',{
         method:"post",
         headers:{
             "Content-Type":"application/json"
