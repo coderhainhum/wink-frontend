@@ -3,19 +3,21 @@ import ConversationListItem from './ConversationListItem/index'
 import Toolbar from './Toolbar/index'
 import ConversationSearch from './ConversationSearch/index';
 export default function ConversationList(props) {
-    const conversations=props.data
-    const setConversationId=props.setConversationId
-    const setConversation=props.setConversation
+    const conversations=props.conversations
+    const changeActiveConversationId=props.changeActiveConversationId
+    console.log("andar",conversations)
     return (
       <div className="conversation-list" >
         <Toolbar
             title="Wink"
-            setConversationId={setConversationId}
+            changeActiveConversationId={changeActiveConversationId}
         />
-        <ConversationSearch setConversationId={setConversationId} setConversation={setConversation}/>
+        <ConversationSearch changeActiveConversationId={changeActiveConversationId}
+          newConversation={props.newConversation}
+        />
         {
           conversations.map(conversation =>
-            <ConversationListItem key={conversation._id} data={conversation} setConversationId={setConversationId}/>
+            <ConversationListItem key={conversation._id} conversation={conversation} changeActiveConversationId={changeActiveConversationId}/>
           )
         }
       </div>

@@ -25,8 +25,9 @@ const mapStateToProps=state=>{
 
 const mapDispatchToProps=dispatch=>({
     fetchConversations:()=>{dispatch(fetchConversations())},
-    activeConversationId:(conversationId)=>{dispatch(activeConversationId(conversationId))},
-    newMessage:(messageBody)=>{dispatch(newMessage(messageBody))}
+    changeActiveConversationId:(conversationId)=>{dispatch(activeConversationId(conversationId))},
+    newMessage:(messageBody)=>{dispatch(newMessage(messageBody))},
+    newConversation:()=>{dispatch(fetchConversations())},
 
 })
 
@@ -42,7 +43,10 @@ class Home extends Component{
         return(
             <div className="messenger">
              <div className="scrollable sidebar">
-                <ConversationList data={this.props.conversations}/>
+                <ConversationList conversations={this.props.conversations} 
+                    changeActiveConversationId={this.props.changeActiveConversationId}
+                    newConversation={this.props.newConversation}
+                />
              </div>
              <div className="scrollable content">
                  {/* <MessageList conversationId={conversationId} socket={socket} setConversationId={setConversationId}/> */}

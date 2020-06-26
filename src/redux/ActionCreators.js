@@ -3,34 +3,35 @@ import {baseUrl} from '../shared/baseUrl';
 
 
 export const fetchConversations=()=>(dispatch)=>{
-    console.log("entered")
     dispatch(conversationsLoading(true));
     const user=JSON.parse(localStorage.getItem('user'))
-    return fetch('conversationList',{
-        method:"post",
-        headers:{
-            "Content-Type":"application/json"
+    if(user){
+        return fetch('conversationList',{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                id:user._id
+            })
+        }).then(response=>{
+            if(response.ok){
+                return response;
+            }
+            else{
+                var error=new Error('Error'+response.status+':'+response.statusText);
+                error.response=response;
+                throw error;
+            }
         },
-        body:JSON.stringify({
-            id:user._id
+        error=>{
+            var errMess=new Error(error.message);
+            throw errMess;
         })
-    }).then(response=>{
-        if(response.ok){
-            return response;
-        }
-        else{
-            var error=new Error('Error'+response.status+':'+response.statusText);
-            error.response=response;
-            throw error;
-        }
-    },
-    error=>{
-        var errMess=new Error(error.message);
-        throw errMess;
-    })
-    .then(response=>response.json())
-    .then(conversations=>dispatch(addConversations(conversations)))
-    .catch(error=>{console.log('fetch conversations',error.message)})
+        .then(response=>response.json())
+        .then(conversations=>dispatch(addConversations(conversations.result)))
+        .catch(error=>{console.log('fetch conversations',error.message)})
+    }
 }
 
 export const conversationsLoading=()=>({

@@ -4,8 +4,8 @@ import './ConversationSearch.css';
 import M from 'materialize-css'
 
 export default function ConversationSearch(props) {
-    const setConversationId=props.setConversationId
-    const setConversation=props.setConversation
+    const changeActiveConversationId=props.changeActiveConversationId
+    const newConversation=props.newConversation
     const searchModal=useRef(null);
 
     const [userDetails,setUserDetails]=useState([])
@@ -20,8 +20,7 @@ export default function ConversationSearch(props) {
       setSearch(query)
       if(query==""){
         setUserDetails([])
-        setConversationId(" ")
-        setConversationId([])
+        changeActiveConversationId(" ")
       }
       fetch('/searchUsers',{
           method:"post",
@@ -34,7 +33,6 @@ export default function ConversationSearch(props) {
       }).then(res=>res.json())
       .then(results=>{
           setUserDetails(results.user)
-          setConversation([])
       })
   }
 
@@ -54,7 +52,8 @@ export default function ConversationSearch(props) {
     .then(conversationId=>{
         setSearch('')
         setUserDetails([])
-        setConversationId(conversationId)
+        changeActiveConversationId(conversationId)
+        newConversation()
     })
 }
 
