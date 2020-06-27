@@ -81,11 +81,10 @@ export const setActiveConversation=()=>({
 })
 
 export const newMessage=(messageBody)=>(dispatch)=>{
-    const user=JSON.parse(localStorage.getItem('user'))
     let message={
         conversationId:messageBody.conversationId,
         data:messageBody.data,
-        senderId:user._id,
+        senderId:messageBody.senderId,
         time:messageBody.time
     }
     fetch('/createMessage',{

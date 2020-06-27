@@ -56,6 +56,8 @@ a{
   grid-column-start: 2;
   background: white;
 }
+
+
 ::-webkit-scrollbar {
   width: 10px;
 }

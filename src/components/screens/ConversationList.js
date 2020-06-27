@@ -26,6 +26,7 @@ export default function ConversationList(props) {
             <Toolbar
                 title="Wink"
                 changeActiveConversationId={changeActiveConversationId}
+                changeActiveConversation={changeActiveConversation}
             />
             <ConversationSearch changeActiveConversationId={changeActiveConversationId}
               newConversation={props.newConversation}

@@ -31,13 +31,17 @@ const MessageList = (props) => {
     width:width+"px"
   }
 
-
+  const user=JSON.parse(localStorage.getItem('user'))
   if (props.conversationsData.isActiveLoading) {
     return(
         <div className="container">
             <div className="row">    
             <div ref={messagesEndRef} />        
-                <Loading />
+                <div className="conversationHome">
+                  <img className="conversationLogo" src="https://res.cloudinary.com/dstmsi8qv/image/upload/v1593296441/wink_y6vgmt.jpg" alt="conversation" />
+                  <h3>Hello {user.name}!</h3>
+                  <h5>START A CONVERSATION</h5>
+                </div>
                 <div ref={messagesEndRef}/>
             </div>
         </div>
@@ -55,7 +59,6 @@ const MessageList = (props) => {
   );
   }
   else{
-    const user=localStorage.getItem('user')
     const conversation=props.conversationsData.activeConversation
     const socket=props.socket
     const conversationId=props.conversationId
@@ -66,7 +69,6 @@ const MessageList = (props) => {
       }
       
       const sendMessage=(message)=>{
-        const user=localStorage.getItem('user')
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -98,9 +100,10 @@ const MessageList = (props) => {
           </div>
         </div>
       :
-      <div>
-        <h2>Welcome</h2>
-        
+      <div className="userInfo">
+          <img className="conversationLogo" src="https://res.cloudinary.com/dstmsi8qv/image/upload/v1593296441/wink_y6vgmt.jpg" alt="conversation" />
+          <h3>Hello {user.name}!</h3>
+          <h5>START A CONVERSATION</h5>
         <div ref={messagesEndRef} />
       </div>
       }
