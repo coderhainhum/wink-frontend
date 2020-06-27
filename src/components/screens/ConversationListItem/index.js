@@ -6,13 +6,18 @@ export default function ConversationListItem(props) {
     const userId=(user._id)
     const item = props.conversation;
     //item means conversation
-    const changeActiveConversationId=props.changeActiveConversationId;
+    if(item){
+        console.log("item",item)
+        const changeActiveConversationId=props.changeActiveConversationId;
+        const changeActiveConversation=props.changeActiveConversation;
     var person=null
-    if(userId==item.person1._id){
-        person=item.person2
-    }
-    else if(userId==item.person2._id){
-        person=item.person1
+    if(item){
+        if(userId==item.person1._id){
+            person=item.person2
+        }
+        else if(userId==item.person2._id){
+            person=item.person1
+        }
     }
     
     const deleteButton=(id)=>{
@@ -31,7 +36,7 @@ export default function ConversationListItem(props) {
 
     return (
         <div className="conversation-list-box">
-            <div className="conversation-list-item" onClick={()=>{changeActiveConversationId(item._id)}}>
+            <div className="conversation-list-item" onClick={()=>(changeActiveConversationId(item._id),changeActiveConversation())}>
                 <img className="conversation-photo" src={person.photo} alt="conversation" />
                 <div className="conversation-info" >
                     <h1 className="conversation-title">{ person.name }</h1>
@@ -45,4 +50,8 @@ export default function ConversationListItem(props) {
             </div>
         </div>
     );
+    }
+    else{
+        return(<div>ji</div>)
+    }
 }

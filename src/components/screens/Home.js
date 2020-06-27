@@ -7,7 +7,8 @@ import '../../App.css'
 import {
     fetchConversations,
     activeConversationId,
-    newMessage
+    newMessage,
+    activeConversation,
 } from '../../redux/ActionCreators'
 
 import {connect} from 'react-redux';
@@ -15,9 +16,8 @@ import {connect} from 'react-redux';
 
 const mapStateToProps=state=>{
     return{
-        conversations:state.conversations.conversations,
-        activeConversation:state.conversations.activeConversation,
-        conversationId:state.conversations.activeConversationId,      
+        conversationsData:state.conversations,
+        conversationId:state.conversations.activeConversationId,
     }
 }
 
@@ -26,7 +26,7 @@ const mapDispatchToProps=dispatch=>({
     changeActiveConversationId:(conversationId)=>{dispatch(activeConversationId(conversationId))},
     newMessage:(messageBody)=>{dispatch(newMessage(messageBody))},
     newConversation:()=>{dispatch(fetchConversations())},
-
+    changeActiveConversation:()=>{dispatch(activeConversation())}
 })
 
 class Home extends Component{
@@ -37,18 +37,21 @@ class Home extends Component{
         this.props.fetchConversations();
     }
     render(){
-        console.log("props",this.props.conversations)
+        console.log("props",this.props)
         return(
             <div className="messenger">
              <div className="scrollable sidebar">
-                <ConversationList conversations={this.props.conversations} 
+                <ConversationList conversationsData={this.props.conversationsData} 
                     changeActiveConversationId={this.props.changeActiveConversationId}
+                    changeActiveConversation={this.props.changeActiveConversation}
                     newConversation={this.props.newConversation}
                 />
              </div>
              <div className="scrollable content">
                  <MessageList socket={this.props.socket}
-                    activeConversation={this.props.activeConversation}
+                    conversationsData={this.props.conversationsData}
+                    newMessage={this.props.newMessage}
+                    conversationId={this.props.conversationId}
                  />
              </div>
          </div>

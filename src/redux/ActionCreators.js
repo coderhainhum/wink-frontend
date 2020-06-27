@@ -6,6 +6,7 @@ export const fetchConversations=()=>(dispatch)=>{
     dispatch(conversationsLoading(true));
     const user=JSON.parse(localStorage.getItem('user'))
     if(user){
+        console.log("user",user)
         return fetch('conversationList',{
             method:"post",
             headers:{
@@ -50,8 +51,8 @@ export const addConversations=(conversations)=>({
 
 export const activeConversationId=(conversationId)=>(dispatch)=>{
     dispatch(setActiveConversationId(conversationId))
-    dispatch(activeConversationLoading(true))
-    dispatch(setActiveConversation())
+    
+    //dispatch(setActiveConversation())
 }
 
 export const setActiveConversationId=(conversationId)=>({
@@ -59,11 +60,12 @@ export const setActiveConversationId=(conversationId)=>({
     payload:conversationId
 })
 
-// export const activeConversation=()=>(dispatch)=>{
-//     dispatch(activeConversationLoading(true))
+export const activeConversation=()=>(dispatch)=>{
+    console.log("klkl")
+    dispatch(activeConversationLoading(true))
 
-//     dispatch(setActiveConversation())
-// }
+    dispatch(setActiveConversation())
+}
 
 export const activeConversationLoading=()=>({
     type:ActionTypes.ACTIVE_CONVERSATIONS_LOADING
@@ -82,18 +84,19 @@ export const newMessage=(messageBody)=>(dispatch)=>{
     const user=JSON.parse(localStorage.getItem('user'))
     let message={
         conversationId:messageBody.conversationId,
-        data:messageBody.message,
-        senderId:user._id
+        data:messageBody.data,
+        senderId:user._id,
+        time:messageBody.time
     }
-    fetch(baseUrl+'/createMessage',{
+    fetch('/createMessage',{
         method:"post",
         headers:{
             "Content-Type":"application/json"
         },
-        body:JSON.stringify(messageBody)
+        body:JSON.stringify(message)
     }).then(response=>{
         if(response.ok){
-            
+            return response
         } else{
             var error=new Error('Error'+response.status+':'+response.statusText);
             error.response=response;
@@ -104,11 +107,13 @@ export const newMessage=(messageBody)=>(dispatch)=>{
         var errMess=new Error(error.message);
         throw errMess;
     })
-    .then(response=>dispatch(addMessage(message)))
+    .then(response=>response.json())
+    .then(response=>(dispatch(addMessage(response))
+    ))
     .catch(error=>{console.log('new message',error.message)})
 }
 
-export const addMessage=(messageBody)=>({
+export const addMessage=(response)=>({
     type:ActionTypes.ADD_MESSAGE,
-    payload:messageBody
+    payload:response
 })

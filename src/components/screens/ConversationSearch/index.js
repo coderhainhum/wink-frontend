@@ -5,6 +5,7 @@ import M from 'materialize-css'
 
 export default function ConversationSearch(props) {
     const changeActiveConversationId=props.changeActiveConversationId
+    const changeActiveConversation=props.changeActiveConversation
     const newConversation=props.newConversation
     const searchModal=useRef(null);
 
@@ -20,7 +21,6 @@ export default function ConversationSearch(props) {
       setSearch(query)
       if(query==""){
         setUserDetails([])
-        changeActiveConversationId(" ")
       }
       fetch('/searchUsers',{
           method:"post",
@@ -50,10 +50,13 @@ export default function ConversationSearch(props) {
         })
     }).then(res=>res.json())
     .then(conversationId=>{
+        console.log("conId",conversationId)
         setSearch('')
         setUserDetails([])
-        changeActiveConversationId(conversationId)
         newConversation()
+        changeActiveConversationId(conversationId)
+        changeActiveConversation()
+        
     })
 }
 
@@ -92,6 +95,7 @@ export default function ConversationSearch(props) {
                   createConversation(item._id)
                   setSearch('')
                   setUserDetails([])
+                  //changeActiveConversation()
               }}><li className="conversation-list-item">
                     <img className="conversation-photo" src={item.photo} alt="conversation" />
                     <div className="conversation-info" >

@@ -8,7 +8,8 @@ export const Conversations=(state={
     isActiveLoading:true,
     activeErrMess:null,
     activeConversationId:"",
-    activeConversation:{}
+    activeConversation:{},
+    dumy:[]
 },action)=>{
     switch(action.type){
         case ActionTypes.ADD_CONVERSATIONS:
@@ -27,6 +28,9 @@ export const Conversations=(state={
                 return result
             })
             activeconversation=activeconversation[0]
+            if(activeconversation==undefined){
+                activeconversation={}
+            }
             return{...state,isActiveLoading:false,activeErrMess:null,activeConversation:activeconversation}
         case ActionTypes.ACTIVE_CONVERSATIONS_LOADING:
             return{...state,isActiveLoading:true,activeErrMess:null,activeConversation:{}}
@@ -34,15 +38,25 @@ export const Conversations=(state={
             return{...state,isActiveLoading:true,activeErrMess:action.payload,activeConversation:{}}
         
         case ActionTypes.ADD_MESSAGE:
-            let updation=[]
-            for(var i=0;i<state.Conversations;i++){
-                let conversation=state.Conversations[i]
-                if(conversation._id==state.conversationId){
-                    conversation.messages.push(action.payload)
-                }
-                updation.push(conversation)
-            }
-            return{...state,conversations:updation}
+            // let dumb=action.payload
+            // const messageBody={
+            //     data:action.payload.data,
+            //     senderId:action.payload.senderId,
+            //     time:action.payload.time
+            // }
+            // let updation=state.conversations
+            // for(var i=0;i<updation;i++){
+            //     if(updation[i]._id==state.conversationId){    
+            //         updation[i].messages.push(messageBody)
+            //         dumb=updation[i].messages
+            //     }
+            // }
+            let updation=state.conversations
+            const objIndex = updation.findIndex((obj => obj._id == state.activeConversationId));
+            let dumb=objIndex
+            updation[objIndex]=action.payload
+            return{...state,isLoading:false,errMess:null,conversations:updation,activeConversation:action.payload}
+            //return{...state,dumy:updation}
         default:return state
     }
 }
