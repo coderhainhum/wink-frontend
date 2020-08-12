@@ -28,33 +28,52 @@ const mapDispatchToProps=dispatch=>({
     newConversation:()=>{dispatch(fetchConversations())},
     changeActiveConversation:()=>{dispatch(activeConversation())}
 })
-
+const user=localStorage.getItem('user')
 class Home extends Component{
+    
     constructor(props){
         super(props);
     }
+    
     componentDidMount(){
         this.props.fetchConversations();
     }
     render(){
+        const socket=this.props.socket;
+        const a=this.props.fetchConversations
+        const b=this.props.changeActiveConversation
+        socket.on('output',function(){
+            console.log("done")
+            a()
+            b()
+          })
         console.log("props",this.props)
         return(
+            <>
+            {user?
             <div className="messenger">
-             <div className="scrollable sidebar">
-                <ConversationList conversationsData={this.props.conversationsData} 
-                    changeActiveConversationId={this.props.changeActiveConversationId}
-                    changeActiveConversation={this.props.changeActiveConversation}
-                    newConversation={this.props.newConversation}
+            <div className="scrollable sidebar">
+               <ConversationList conversationsData={this.props.conversationsData} 
+                   changeActiveConversationId={this.props.changeActiveConversationId}
+                   changeActiveConversation={this.props.changeActiveConversation}
+                   newConversation={this.props.newConversation}
+               />
+            </div>
+            <div className="scrollable content">
+                <MessageList socket={this.props.socket}
+                   conversationsData={this.props.conversationsData}
+                   changeActiveConversation={this.props.changeActiveConversation}
+                   newMessage={this.props.newMessage}
+                   conversationId={this.props.conversationId}
+                   fetchConversations={this.props.fetchConversations}
                 />
-             </div>
-             <div className="scrollable content">
-                 <MessageList socket={this.props.socket}
-                    conversationsData={this.props.conversationsData}
-                    newMessage={this.props.newMessage}
-                    conversationId={this.props.conversationId}
-                 />
-             </div>
-         </div>
+            </div>
+        </div>
+        :
+        <div></div>
+            }
+            
+         </>
         )
     }
 }

@@ -10,7 +10,8 @@ export const fetchConversations=()=>(dispatch)=>{
         return fetch('conversationList',{
             method:"post",
             headers:{
-                "Content-Type":"application/json"
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
             },
             body:JSON.stringify({
                 id:user._id
@@ -90,7 +91,8 @@ export const newMessage=(messageBody)=>(dispatch)=>{
     fetch('/createMessage',{
         method:"post",
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+localStorage.getItem("jwt")
         },
         body:JSON.stringify(message)
     }).then(response=>{

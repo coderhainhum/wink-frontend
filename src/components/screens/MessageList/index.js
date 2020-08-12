@@ -60,14 +60,16 @@ const MessageList = (props) => {
   }
   else{
     const conversation=props.conversationsData.activeConversation
+    const changeActiveConversation=props.changeActiveConversation
     const socket=props.socket
     const conversationId=props.conversationId
-    
+    const fetchConversations=props.fetchConversations
       
       if(conversation){
         messages=(conversation.messages)
       }
       
+
       const sendMessage=(message)=>{
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -80,6 +82,7 @@ const MessageList = (props) => {
           time:dateTime,
         }
         props.newMessage(messageBody)
+        //socket.emit('input');
         }
       
     
@@ -104,7 +107,7 @@ const MessageList = (props) => {
           <img className="conversationLogo" src="https://res.cloudinary.com/dstmsi8qv/image/upload/v1593296441/wink_y6vgmt.jpg" alt="conversation" />
           <h3>Hello {user.name}!</h3>
           <h5>START A CONVERSATION</h5>
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef} />z
       </div>
       }
       </>

@@ -19,7 +19,7 @@ export default function ConversationList(props) {
       const conversations=props.conversationsData.conversations
       const changeActiveConversationId=props.changeActiveConversationId
       const changeActiveConversation=props.changeActiveConversation
-      console.log("andar",conversations)
+      console.log("andar",conversations.result)
       if(conversations){
         return (
           <div className="conversation-list" >
