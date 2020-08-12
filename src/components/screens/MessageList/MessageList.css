@@ -10,3 +10,14 @@
   bottom: 0px;
   margin-bottom: 0px;
 }
+.conversationHome{
+  margin-top: 30%;
+  text-align: center;
+}
+.conversationLogo{
+  width: 100px;
+}
+
+.userInfo{
+  text-align: center;
+}

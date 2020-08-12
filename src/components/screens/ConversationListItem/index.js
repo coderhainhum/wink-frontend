@@ -4,16 +4,21 @@ import './ConversationListItem.css';
 export default function ConversationListItem(props) {
     const user=JSON.parse(localStorage.getItem("user"));
     const userId=(user._id)
-    const item = props.data;
-    const setConversationId=props.setConversationId;
+    const item = props.conversation;
+    //item means conversation
+    if(item){
+        console.log("item",item)
+        const changeActiveConversationId=props.changeActiveConversationId;
+        const changeActiveConversation=props.changeActiveConversation;
     var person=null
-    if(userId==item.person1._id){
-        person=item.person2
+    if(item){
+        if(userId==item.person1._id){
+            person=item.person2
+        }
+        else if(userId==item.person2._id){
+            person=item.person1
+        }
     }
-    else if(userId==item.person2._id){
-        person=item.person1
-    }
-    var lastMessage=item.messages.pop()
     
     const deleteButton=(id)=>{
         fetch(`/deleteConversation/${id}`,{
@@ -23,7 +28,7 @@ export default function ConversationListItem(props) {
             }
         }).then(res=>res.json())
         .then(result=>{
-            setConversationId(" ")
+            changeActiveConversationId(" ")
         }).catch(err=>{
             console.log(err)
         })
@@ -31,7 +36,7 @@ export default function ConversationListItem(props) {
 
     return (
         <div className="conversation-list-box">
-            <div className="conversation-list-item" onClick={()=>{setConversationId(item._id)}}>
+            <div className="conversation-list-item" onClick={()=>(changeActiveConversationId(item._id),changeActiveConversation())}>
                 <img className="conversation-photo" src={person.photo} alt="conversation" />
                 <div className="conversation-info" >
                     <h1 className="conversation-title">{ person.name }</h1>
@@ -45,4 +50,8 @@ export default function ConversationListItem(props) {
             </div>
         </div>
     );
+    }
+    else{
+        return(<div>ji</div>)
+    }
 }

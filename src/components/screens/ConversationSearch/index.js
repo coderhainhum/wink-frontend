@@ -4,8 +4,9 @@ import './ConversationSearch.css';
 import M from 'materialize-css'
 
 export default function ConversationSearch(props) {
-    const setConversationId=props.setConversationId
-    const setConversation=props.setConversation
+    const changeActiveConversationId=props.changeActiveConversationId
+    const changeActiveConversation=props.changeActiveConversation
+    const newConversation=props.newConversation
     const searchModal=useRef(null);
 
     const [userDetails,setUserDetails]=useState([])
@@ -20,13 +21,12 @@ export default function ConversationSearch(props) {
       setSearch(query)
       if(query==""){
         setUserDetails([])
-        setConversationId(" ")
-        setConversationId([])
       }
       fetch('/searchUsers',{
           method:"post",
           headers:{
-              "Content-Type":"application/json"
+              "Content-Type":"application/json",
+              "Authorization":"Bearer "+localStorage.getItem("jwt")
           },
           body:JSON.stringify({
               query,id:user._id
@@ -34,7 +34,6 @@ export default function ConversationSearch(props) {
       }).then(res=>res.json())
       .then(results=>{
           setUserDetails(results.user)
-          setConversation([])
       })
   }
 
@@ -44,7 +43,8 @@ export default function ConversationSearch(props) {
     fetch('/createConversation',{
         method:"post",
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+localStorage.getItem("jwt")
         },
         body:JSON.stringify({
             person1:person1_id,
@@ -52,9 +52,13 @@ export default function ConversationSearch(props) {
         })
     }).then(res=>res.json())
     .then(conversationId=>{
+        console.log("conId",conversationId)
         setSearch('')
         setUserDetails([])
-        setConversationId(conversationId)
+        newConversation()
+        changeActiveConversationId(conversationId)
+        changeActiveConversation()
+        
     })
 }
 
@@ -93,6 +97,7 @@ export default function ConversationSearch(props) {
                   createConversation(item._id)
                   setSearch('')
                   setUserDetails([])
+                  //changeActiveConversation()
               }}><li className="conversation-list-item">
                     <img className="conversation-photo" src={item.photo} alt="conversation" />
                     <div className="conversation-info" >

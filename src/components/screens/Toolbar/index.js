@@ -7,7 +7,7 @@ export default function Toolbar(props) {
     if(user){
       userPhoto=user.photo
     }
-    const { title,setConversationId } = props;
+    const { title,changeActiveConversationId,changeActiveConversation } = props;
     const logout=()=>{
       localStorage.clear();
       window.location.reload();
@@ -18,7 +18,7 @@ export default function Toolbar(props) {
         <div className="left-items"><i className="material-icons toolbar-button" onClick={()=>logout()}>logout</i></div>
         <h1 className="toolbar-title">{ title }</h1>
         <div className="right-items">
-          <img src={userPhoto} className="tootlbar-button conversation-photo" onClick={()=>{setConversationId("")}}></img>
+          <img src={userPhoto} className="tootlbar-button conversation-photo" onClick={()=>(changeActiveConversationId(""),changeActiveConversation())}></img>
         </div>
       </div>
     );
