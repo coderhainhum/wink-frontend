@@ -25,7 +25,8 @@ export default function ConversationSearch(props) {
       fetch('/searchUsers',{
           method:"post",
           headers:{
-              "Content-Type":"application/json"
+              "Content-Type":"application/json",
+              "Authorization":"Bearer "+localStorage.getItem("jwt")
           },
           body:JSON.stringify({
               query,id:user._id
@@ -42,7 +43,8 @@ export default function ConversationSearch(props) {
     fetch('/createConversation',{
         method:"post",
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+localStorage.getItem("jwt")
         },
         body:JSON.stringify({
             person1:person1_id,
